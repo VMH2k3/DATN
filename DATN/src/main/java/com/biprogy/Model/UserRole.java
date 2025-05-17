@@ -10,18 +10,18 @@ import lombok.Setter;
 @Table(name = "users_roles")
 public class UserRole {
      @Id
-    @Column(name = "Id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
      @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "id")
+    @JoinColumn(name = "userid", referencedColumnName = "id")
     private User user;
      @ManyToOne
-    @JoinColumn(name = "roleId", referencedColumnName = "id")
+    @JoinColumn(name = "roleid", referencedColumnName = "id")
     private Role role;
 
      public UserRole() {}
-     public UserRole(int id, Role role, User user) {
+     public UserRole(Long id, Role role, User user) {
         super();
         this.id = id;
         this.role = role;

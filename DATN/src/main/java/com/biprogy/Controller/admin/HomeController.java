@@ -1,5 +1,4 @@
 package com.biprogy.Controller.admin;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class HomeController {
 
 
-    @RequestMapping(value = "/admin/dashboard", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public ModelAndView homePage() {
         return new ModelAndView("admin/dashboard");
     }
@@ -19,15 +18,6 @@ public class HomeController {
         return new ModelAndView("admin/tables");
     }
 
-    @RequestMapping(value = "/admin/jqgrid", method = RequestMethod.GET)
-    public ModelAndView jgridPage() {
-        return new ModelAndView("admin/jqgrid");
-    }
-
-    @RequestMapping(value = "/dummy", method = RequestMethod.GET)
-    public ModelAndView dummyPage() {
-        return new ModelAndView("admin/dummy");
-    }
     }
 
 

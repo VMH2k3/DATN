@@ -12,10 +12,11 @@ public class CustomUserDetails implements UserDetails {
     public CustomUserDetails(User user) {}
     public CustomUserDetails(User user, Collection<? extends GrantedAuthority> authorities) {
         this.user = user;
+        this.authorities = List.copyOf(authorities);
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return authorities;
     }
 
     @Override
@@ -45,6 +46,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.getEnable();
+        return true;
     }
 }

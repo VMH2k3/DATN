@@ -2,6 +2,7 @@ package com.biprogy.Model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 
 
@@ -13,11 +14,12 @@ public class User {
 
     @Getter
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Getter
-    @Column(name = "userName")
+    @Column(name = "username")
     private String userName;
 
     @Getter
@@ -30,17 +32,22 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<UserRole> userRoles;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Cart> carts;
+
     public User() {
 
     }
 
-    public User(Long id, Set<UserRole> userRoles, boolean enable, String password, String userName) {
-        this.id = id;
+    public User(List<Cart> carts, Set<UserRole> userRoles, String password, boolean enable, String userName, Long id) {
+        this.carts = carts;
         this.userRoles = userRoles;
-        this.enable = enable;
         this.password = password;
+        this.enable = enable;
         this.userName = userName;
+        this.id = id;
     }
+
 
     public boolean getEnable() {
         return enable;

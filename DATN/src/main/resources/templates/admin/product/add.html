@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en"
+      xlmns:th="http://www.thymeleaf.org"
+      xmlns:xlmns="http://www.w3.org/1999/xhtml"
+>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Thêm sản phẩm - VMHShop Admin</title>
+    <meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <link rel="stylesheet" th:href="@{/assets/fe/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/fe/font-awesome/4.2.0/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/fe/css/jquery-ui.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/fe/css/datepicker.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/fe/css/ui.jqgrid.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/fe/fonts/fonts.googleapis.com.css}" />
+    <link rel="stylesheet" th:href="@{/assets/fe/css/ace.min.css}" class="ace-main-stylesheet" id="main-ace-style" />
+    <link rel="stylesheet" th:href="@{/assets/fe/css/ace-part2.min.css}" class="ace-main-stylesheet" />
+    <link rel="stylesheet" th:href="@{/assets/fe/css/ace-ie.min.css}" />
+    <script th:src="@{/assets/fe/js/ace-extra.min.js}"></script>
+    <script th:src="@{/assets/fe/js/html5shiv.min.js}"></script>
+    <script th:src="@{/assets/fe/js/respond.min.js}"></script>
+</head>
+
+<body class="no-skin">
+<div th:replace="/admin/fragments/navbar :: navbar"></div>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+    <div th:replace="/admin/fragments/sidebar :: sidebar"></div>
+
+    <div class="main-content">
+        <div class="main-content-inner">
+            <div class="page-content">
+                <div class="ace-settings-container" id="ace-settings-container">
+                    <div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
+                        <i class="ace-icon fa fa-cog bigger-130"></i>
+                    </div>
+
+                    <div class="ace-settings-box clearfix" id="ace-settings-box">
+                        <div class="pull-left width-50">
+                            <div class="ace-settings-item">
+                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-navbar" />
+                                <label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
+                            </div>
+                            <div class="ace-settings-item">
+                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-sidebar" />
+                                <label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
+                            </div>
+                            <div class="ace-settings-item">
+                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" />
+                                <label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
+                            </div>
+                            <div class="ace-settings-item">
+                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" />
+                                <label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
+                            </div>
+                            <div class="ace-settings-item">
+                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-add-container" />
+                                <label class="lbl" for="ace-settings-add-container">
+                                    Inside
+                                    <b>.container</b>
+                                </label>
+                            </div>
+                        </div><!-- /.pull-left -->
+
+                        <div class="pull-left width-50">
+                            <div class="ace-settings-item">
+                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" />
+                                <label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
+                            </div>
+
+                            <div class="ace-settings-item">
+                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" />
+                                <label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
+                            </div>
+
+                            <div class="ace-settings-item">
+                                <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" />
+                                <label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
+                            </div>
+                        </div><!-- /.pull-left -->
+                    </div><!-- /.ace-settings-box -->
+                </div><!-- /.ace-settings-container -->
+
+                <div class="page-header">
+                    <h1>
+                        Danh mục
+                    </h1>
+                </div><!-- /.page-header -->
+
+                <div class="container mt-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <b>Thêm sản phẩm</b>
+                        </div>
+                        <div class="card-body">
+                            <form role="form" method="post" th:action="@{/admin/add-product}" th:object="${product}" enctype="multipart/form-data">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label for="productNameInput">Product Name</label>
+                                        <input type="text" class="form-control" id="productNameInput"
+                                               placeholder="Product Name" th:field="*{productname}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="productPriceInput">Price</label>
+                                        <input type="text" class="form-control" id="productPriceInput"
+                                               placeholder="Price" th:field="*{price}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="productImage">Image</label>
+                                        <input type="file" class="form-control" id="productImage" name="fileImage">
+                                    </div>
+                                    <div class="form-group">
+                                        <label >Category</label>
+                                        <select class="form-control select2 select2-hidden-accessible" th:field="*{category.id}">
+                                            <option th:each="category : ${listCate}" th:value="${category.id}" th:text="${category.categoryname}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description">Description</label>
+                                        <textarea name="description" id="description" rows="3" cols="80" th:field="*{description}"
+                                                  class="form-control" placeholder="Input decription"></textarea>
+                                    </div>
+                                    <div class="box-footer">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+
+    <div class="footer">
+        <div class="footer-inner">
+            <div class="footer-content">
+						<span class="bigger-120">
+							<span class="blue bolder">VMH</span>
+							Shop &copy; 2025
+						</span>
+                <span class="action-buttons">
+							<a href="#">
+								<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
+							</a>
+
+							<a href="#">
+								<i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
+							</a>
+
+							<a href="#">
+								<i class="ace-icon fa fa-rss-square orange bigger-150"></i>
+							</a>
+						</span>
+            </div>
+        </div>
+    </div>
+
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->
+<script th:src="@{/assets/fe/js/jquery.2.1.1.min.js}"></script>
+<script th:src="@{/assets/fe/js/jquery.1.11.1.min.js}"></script>
+<script type="text/javascript">
+    window.jQuery || document.write("<script th:src='@{/assets/fe/js/jquery.min.js}'>"+"<"+"/script>");
+</script>
+<script type="text/javascript">
+    window.jQuery || document.write("<script th:src='@{/assets/fe/js/jquery1x.min.js}'>"+"<"+"/script>");
+</script>
+<script type="text/javascript">
+    if('ontouchstart' in document.documentElement) document.write("<script th:src='@{/assets/fe/js/jquery.mobile.custom.min.js}'>"+"<"+"/script>");
+</script>
+<script th:src="@{/assets/fe/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/fe/js/bootstrap-datepicker.min.js}"></script>
+<script th:src="@{/assets/fe/js/jquery.jqGrid.min.js}"></script>
+<script th:src="@{/assets/fe/js/grid.locale-en.js}"></script>
+<script th:src="@{/assets/fe/js/ace-elements.min.js}"></script>
+<script th:src="@{/assets/fe/js/ace.min.js}"></script>
+
+</body>
+</html>

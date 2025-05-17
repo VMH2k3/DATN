@@ -12,15 +12,15 @@ import java.util.Set;
 @Table (name = "role")
 public class Role {
     @Id
-    @Column(name = "Id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column(name = "name")
     private String name;
     @OneToMany(mappedBy = "role")
     private Set<UserRole> roleUsers;
 
-    public Role(String name, Set<UserRole> roleUsers, int id) {
+    public Role(String name, Set<UserRole> roleUsers, Long id) {
         super();
         this.name = name;
         this.roleUsers = roleUsers;
