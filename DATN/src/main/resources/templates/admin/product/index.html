@@ -113,11 +113,14 @@
                                 <thead>
                                 <tr>
                                     <th style="width: 10px;">ID</th>
-                                    <th>Product Name</th>
-                                    <th>Price</th>
-                                    <th>Image</th>
-                                    <th>Category</th>
-                                    <th>Action</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Giá</th>
+                                    <th>Màu</th>
+                                    <th>Cỡ</th>
+                                    <th>Hình ảnh</th>
+                                    <th>Số lượng</th>
+                                    <th>Danh mục</th>
+                                    <th>Thao tác</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -125,7 +128,10 @@
                                     <td th:text="${pro.index + 1 + (currentPage - 1)*5}"></td>
                                     <td th:text="${product.productname}"></td>
                                     <td th:text="${product.price}"></td>
+                                    <td th:text="${product.color}"></td>
+                                    <td th:text="${product.size}"></td>
                                     <td th:text="${product.image}"></td>
+                                    <td th:text="${product.quanlity}"></td>
                                     <td th:text="${product.category.categoryname}"></td>
                                     <td>
                                         <a th:href="@{/admin/update-product/{id}(id=${product.productid})}"  class="btn btn-success">Update</a>

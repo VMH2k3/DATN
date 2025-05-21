@@ -24,6 +24,11 @@ public class Category {
     @Getter
     @OneToMany(mappedBy = "category")
     private Set<Product> products;
+
+    @Setter
+    @Transient
+    private Integer productCount;
+
     public Category() {}
 
     public Category(Set<Product> products, Boolean categorystatus, String categoryname, Integer id) {

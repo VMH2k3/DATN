@@ -1,0 +1,95 @@
+<!doctype html>
+<html class="no-js" lang="en"
+      xlmns:th="http://www.thymeleaf.org"
+      xmlns:xlmns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>VMHShop - login</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/fe/img/favicon.ico}">
+    <link rel="stylesheet" th:href="@{assets/fe/css/plugins.css}">}
+    <link rel="stylesheet" th:href="@{assets/fe/css/style.css}">
+</head>
+
+<body>
+<header th:replace="/web/fragments/header_area :: header"></header>
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="/index">home</a></li>
+                        <li>register</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs area end-->
+
+
+<!-- customer login start -->
+<div class="customer_login mt-60">
+    <div class="container">
+        <div class="row">
+            <!--register area start-->
+            <div>
+                <div class="account_form">
+                    <h2>register</h2>
+                    <form role="form" th:action="@{/register}" method="post" th:object="${user}" >
+                        <p>
+                            <label>Username<span>*</span></label>
+                            <input type="text" name="username" th:field="*{userName}" required>
+                        </p>
+                        <p>
+                            <label>Passwords <span>*</span></label>
+                            <input type="password" name="password" th:field="*{password}" required>
+                        </p>
+                        <div class="login_submit">
+                            <button type="submit">register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--register area end-->
+        </div>
+    </div>
+</div>
+<!-- customer login end -->
+
+<!--brand newsletter area start-->
+<div class="brand_newsletter_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="brand_container owl-carousel">
+                    <div class="single_brand">
+                        <a href="#"><img th:src="@{assets/fe/img/brand/brand.png}" alt=""></a>
+                    </div>
+                </div>
+                <div class="newsletter_inner">
+                    <div class="newsletter_content">
+                        <h2>SUBSCRIBE TO OUR NEWSLETTER</h2>
+                    </div>
+                    <div class="newsletter_form">
+                        <form action="#">
+                            <label>
+                                <input placeholder="Email..." type="text">
+                            </label>
+                            <button type="submit"><i class="zmdi zmdi-mail-send"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="/web/fragments/footer :: footer"></div>
+<script th:src="@{assets/fe/js/plugins.js}"></script>
+<script th:src="@{assets/fe/js/plugins.js}"></script>
+</body>
+</html>

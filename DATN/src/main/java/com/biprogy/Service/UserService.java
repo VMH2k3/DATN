@@ -4,4 +4,5 @@ import com.biprogy.Model.User;
 
 public interface UserService {
     User findByUserName(String userName);
+    Boolean create(User user);
 }

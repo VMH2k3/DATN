@@ -18,27 +18,56 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "userid", nullable = false)
-    private User user;
-
     @Column(name = "cartstatus")
-    private String cartstatus;
+    private Boolean cartstatus;
 
+    @Getter
     @Column(name="totalprice")
     private Double totalprice;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> items = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "userid")
+    private User user;
+
+    @OneToOne(mappedBy = "cart")
+    private Order order;
+
     public Cart() {}
 
-    public Cart(Integer id, List<CartItem> items, Double totalprice, String cartstatus, User user) {
-        this.id = id;
+    public Cart( List<CartItem> items, Boolean cartstatus, Integer id) {
+        this.totalprice=0.0;
+        for (CartItem item : items) {
+            this.totalprice += item.getPrice()*item.getQuanlity();
+        }
         this.items = items;
-        this.totalprice = totalprice;
         this.cartstatus = cartstatus;
-        this.user = user;
+        this.id = id;
     }
 
+    public Cart(Integer id, Order order, Boolean cartstatus, List<CartItem> items) {
+        this.id = id;
+        this.order = order;
+        setTotalprice(items);
+        this.cartstatus = cartstatus;
+        this.items = items;
+    }
+
+    public Cart(Integer id, Order order, User user, List<CartItem> items, Boolean cartstatus) {
+        this.id = id;
+        this.order = order;
+        this.user = user;
+        this.items = items;
+        setTotalprice(items);
+        this.cartstatus = cartstatus;
+    }
+
+    public void setTotalprice(List<CartItem> items) {
+        this.totalprice=0.0;
+        for (CartItem item : items) {
+            this.totalprice += item.getPrice()*item.getQuanlity();
+        }
+    }
 }

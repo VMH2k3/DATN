@@ -100,32 +100,61 @@
                             <form role="form" method="post" th:action="@{/admin/add-product}" th:object="${product}" enctype="multipart/form-data">
                                 <div class="box-body">
                                     <div class="form-group">
-                                        <label for="productNameInput">Product Name</label>
+                                        <label for="productNameInput">Tên sản phẩm</label>
                                         <input type="text" class="form-control" id="productNameInput"
-                                               placeholder="Product Name" th:field="*{productname}">
+                                               placeholder="Nhập tên sản phẩm" th:field="*{productname}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="productPriceInput">Price</label>
+                                        <label for="productPriceInput">Giá</label>
                                         <input type="text" class="form-control" id="productPriceInput"
-                                               placeholder="Price" th:field="*{price}">
+                                               placeholder="Nhập giá sản phẩm" th:field="*{price}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="productImage">Image</label>
+                                        <label for="productColorInput">Màu</label>
+                                        <select type="text" class="form-control" id="productColorInput"
+                                               th:field="*{color}">
+                                            <option value="blue">blue</option>
+                                            <option value="black">black</option>
+                                            <option value="white">white</option>
+                                            <option value="green">green</option>
+                                            <option value="red">red</option>
+                                            <option value="yellow">yellow</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="productSizeInput">Cỡ</label>
+                                        <select type="text" class="form-control" id="productSizeInput"
+                                                th:field="*{size}">
+                                            <option value="36">36</option>
+                                            <option value="37">37</option>
+                                            <option value="38">38</option>
+                                            <option value="39">39</option>
+                                            <option value="40">40</option>
+                                            <option value="41">41</option>
+                                            <option value="42">42</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="productImage">Hình ảnh</label>
                                         <input type="file" class="form-control" id="productImage" name="fileImage">
                                     </div>
                                     <div class="form-group">
-                                        <label >Category</label>
+                                        <label for="productQuanlity">Số lượng</label>
+                                        <input type="number" class="form-control" id="productQuanlity" name="Quanlity" th:field="*{quanlity}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label >Danh mục</label>
                                         <select class="form-control select2 select2-hidden-accessible" th:field="*{category.id}">
                                             <option th:each="category : ${listCate}" th:value="${category.id}" th:text="${category.categoryname}"></option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="description">Description</label>
+                                        <label for="description">Mô trả</label>
                                         <textarea name="description" id="description" rows="3" cols="80" th:field="*{description}"
-                                                  class="form-control" placeholder="Input decription"></textarea>
+                                                  class="form-control" placeholder="Nhập mô tả sản phẩm"></textarea>
                                     </div>
                                     <div class="box-footer">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
                                     </div>
                                 </div>
                             </form>

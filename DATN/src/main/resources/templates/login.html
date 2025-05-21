@@ -1,0 +1,103 @@
+<!doctype html>
+<html class="no-js" lang="en"
+      xlmns:th="http://www.thymeleaf.org"
+      xmlns:xlmns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>VMHShop - login</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/fe/img/favicon.ico}">
+    <link rel="stylesheet" th:href="@{assets/fe/css/plugins.css}">}
+    <link rel="stylesheet" th:href="@{assets/fe/css/style.css}">
+</head>
+
+<body>
+<header class="header_area" th:fragment="header">
+    <div class="header_top">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4">
+                    <div class="welcome_text">
+                        <p>Rất vui được chào đón bạn đến với shop của chúng tôi</p>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="header_bottom sticky-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="main_menu header_position">
+                        <nav>
+                            <ul>
+                                <li><a  href="/index"><i class="zmdi zmdi-home"></i> Home </a></li>
+                                <li><a href="/product"><i class="zmdi zmdi-shopping-basket"></i> Shop </a></li>
+                                <li><a href="/contact"><i class="zmdi zmdi-account-box-mail"></i>  Contact Us</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</header>
+
+
+    <div class="breadcrumbs_area">
+        <div class="container">   
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                        <ul>
+                            <li><a href="/index">home</a></li>
+                            <li>login</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>         
+    </div>
+    <!--breadcrumbs area end-->
+
+
+    <!-- customer login start -->
+    <div class="customer_login mt-60">
+        <div class="container">
+            <div class="row">
+               <!--login area start-->
+                <div>
+                    <div class="account_form">
+                        <h2>login</h2>
+                        <form th:action="@{/login}" method="post">
+                            <p>
+                                <label>Username<span>*</span></label>
+                                    <input type="text" name="username" required>
+                            </p>
+                            <p>
+                                <label>Passwords <span>*</span></label>
+                                    <input type="password" name="password" required>
+                            </p>
+                            <div class="login_submit">
+                                <a href="#">Lost your password?</a>
+                                <label for="remember">
+                                    <input id="remember" type="checkbox" name="remember-me">
+                                    Remember me
+                                </label>
+                                <button type="submit">login</button>
+                                <a href="/register" class="button" style="margin-left: 10px; margin-right: 10px; background-color: #4CAF50; color: white; text-align: center;border-radius: 5px;">register</a>
+                            </div>
+                        </form>
+                     </div>    
+                </div>
+                <!--register area end-->
+            </div>
+        </div>    
+    </div>
+<div th:replace="/web/fragments/footer :: footer"></div>
+<script th:src="@{assets/fe/js/plugins.js}"></script>
+<script th:src="@{assets/fe/js/plugins.js}"></script>
+</body>
+</html>

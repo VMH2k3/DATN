@@ -1,16 +1,20 @@
 package com.biprogy.Service;
 
 import com.biprogy.Model.Cart;
-import com.biprogy.Model.CartItem;
 import com.biprogy.Repository.CartRepository;
+import com.biprogy.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+
 @Service
 public class CartServiceImpl implements CartService {
     @Autowired
     CartRepository cartRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public List<Cart> getAllCarts() {
@@ -18,22 +22,20 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart getCartById(Long cartId) {
-        return null;
+    public Set<Cart> getCartByUserId(Long Userid) {
+        return this.userRepository.findById(Userid).get().getCarts();
     }
 
     @Override
-    public Cart addCart(Cart cart) {
-        return null;
+    public Boolean create(Cart cart) {
+        try {
+            this.cartRepository.save(cart);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
     }
 
-    @Override
-    public Cart addCartItem(Long cartId, CartItem cartItem) {
-        return null;
-    }
 
-    @Override
-    public Cart removeCartItem(Long cartId, Long cartItemId) {
-        return null;
-    }
 }

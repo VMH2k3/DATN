@@ -11,7 +11,7 @@ import lombok.Setter;
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "quanlity")
     private Integer quanlity;
@@ -32,13 +32,25 @@ public class CartItem {
 
     public CartItem() {}
 
-    public CartItem(Integer id, Product product, Cart cart, Double totalprice, Double price, Integer quanlity) {
+    public CartItem(Long id, Product product, Cart cart, Integer quanlity) {
         this.id = id;
         this.product = product;
         this.cart = cart;
-        this.totalprice = totalprice;
-        this.price = price;
+        this.price = product.getPrice() != null ? product.getPrice() : 0.0;
+        this.totalprice = this.price*quanlity;
         this.quanlity = quanlity;
     }
 
+    public CartItem( Product product, Cart cart, Integer quanlity) {
+        this.product = product;
+        this.cart = cart;
+        this.price = product.getPrice() != null ? product.getPrice() : 0.0;
+        this.totalprice =this.price*quanlity;
+        this.quanlity = quanlity;
+    }
+
+
+    public void setTotalprice(Double price, Integer quanlity) {
+        this.totalprice = price*quanlity;
+    }
 }

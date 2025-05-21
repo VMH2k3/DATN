@@ -46,7 +46,6 @@ public class ProductController {
 
         Product product = new Product();
         model.addAttribute("product", product);
-
         List<Category> listCate = this.categoryService.getAll();
         model.addAttribute("listCate", listCate);
 
@@ -57,7 +56,6 @@ public class ProductController {
     public String save(@ModelAttribute("product") Product product, @RequestParam("fileImage") MultipartFile file){
         this.storageService.store(file);
         String fileName = file.getOriginalFilename();
-
         product.setImage(fileName);
         if (this.productService.create(product)){
             return "redirect:/admin/product";

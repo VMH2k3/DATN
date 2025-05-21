@@ -12,12 +12,6 @@ public class HomeController {
     public ModelAndView homePage() {
         return new ModelAndView("admin/dashboard");
     }
-
-    @RequestMapping(value = "/admin/tables", method = RequestMethod.GET)
-    public ModelAndView tablesPage() {
-        return new ModelAndView("admin/tables");
-    }
-
     }
 
 

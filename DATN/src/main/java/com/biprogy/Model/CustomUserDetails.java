@@ -14,6 +14,11 @@ public class CustomUserDetails implements UserDetails {
         this.user = user;
         this.authorities = List.copyOf(authorities);
     }
+
+    public Long getUserId() {
+        return user.getId(); // Assuming User class has an getId() method
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;

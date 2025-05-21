@@ -1,0 +1,97 @@
+<!doctype html>
+<html class="no-js" lang="en"
+      xlmns:th="http://www.thymeleaf.org"
+      xmlns:xlmns="http://www.w3.org/1999/xhtml"
+>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>VMHShop - cart page</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{assets/fe/img/favicon.ico}">
+    <link rel="stylesheet" th:href="@{assets/fe/css/plugins.css}">
+    <link rel="stylesheet" th:href="@{assets/fe/css/style.css}">
+</head>
+
+<body>
+
+ <!--header area start-->
+ <header th:replace="/web/fragments/header_area :: header"></header>
+    <!--header area end-->
+    
+    <!--Offcanvas menu area start-->
+ <div th:replace="/web/fragments/menu :: menu"></div>
+    <!--Offcanvas menu area end-->
+
+    <!--breadcrumbs area start-->
+    <div class="breadcrumbs_area">
+        <div class="container">   
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                        <ul>
+                            <li><a href="index.html">home</a></li>
+                            <li>Shopping Cart</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>         
+    </div>
+    <!--breadcrumbs area end-->
+    
+     <!--shopping cart area start -->
+    <div class="shopping_cart_area mt-60">
+        <div class="container">  
+            <form role="form" method="post" th:action="@{cart/update-cart}" th:object="${cartItems}">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table_desc">
+                            <div class="cart_page table-responsive">
+                                <table>
+                            <thead>
+                                <tr>
+                                    <th class="product_remove">Delete</th>
+                                    <th class="product_thumb">Image</th>
+                                    <th class="product_name">Product</th>
+                                    <th class="product-price">Price</th>
+                                    <th class="product_quantity">Quantity</th>
+                                    <th class="product_total">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item,iterStat  : ${cart.items}">
+                                   <td class="product_remove"><a th:href="@{/product/delete/{id}(id=${item.product.productid})}" onclick="return confirm('Bạn chắc chắn muốn xóa chứ ?')" ><i class="fa fa-trash-o"></i></a></td>
+                                    <td class="product_thumb"><a href="#"><img th:src="@{${item.product.image}}" alt=""></a></td>
+                                    <td class="product_name"><a href="#" th:text="${item.product.productname}"></a></td>
+                                    <td class="product-price" th:text="${item.product.price}"></td>
+                                    <td class="product_quantity"  th:text="${item.quanlity}"></td>
+                                    <td class="product_total" th:text="${item.quanlity * item.product.price}"></td>
+                                </tr>
+                            </tbody>
+                        </table>   
+                            </div>  
+                            <div class="cart_submit" th:object="${cart}">
+                                <button type="button" ><a th:href="@{/checkout/{id}(id=${cart.id})}"  >Thanh toán</a></button>
+                            </div>      
+                        </div>
+                     </div>
+                 </div>
+            </form> 
+        </div>     
+    </div>
+     <!--shopping cart area end -->
+
+ <div th:replace="/web/fragments/footer :: footer"></div>
+<script th:src="@{assets/fe/js/plugins.js}"></script>
+
+<!-- Main JS -->
+<script th:src="@{assets/fe/js/main.js}"></script>
+
+
+
+</body>
+
+</html>

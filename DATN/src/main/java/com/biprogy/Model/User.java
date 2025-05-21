@@ -5,7 +5,7 @@ import lombok.*;
 import java.util.List;
 import java.util.Set;
 
-
+@Getter
 @Setter
 @Entity
 @Table(name = "users")
@@ -32,15 +32,20 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<UserRole> userRoles;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Cart> carts;
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+    private Set<Cart> carts;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Order> orders;
+
+    @ManyToMany(mappedBy = "users")
+    private Set<Voucher> vouchers;
 
     public User() {
 
     }
 
-    public User(List<Cart> carts, Set<UserRole> userRoles, String password, boolean enable, String userName, Long id) {
-        this.carts = carts;
+    public User( Set<UserRole> userRoles, String password, boolean enable, String userName, Long id) {
         this.userRoles = userRoles;
         this.password = password;
         this.enable = enable;
@@ -48,9 +53,13 @@ public class User {
         this.id = id;
     }
 
-
-    public boolean getEnable() {
-        return enable;
+    public User(Long id, Set<Cart> carts, Set<Voucher> vouchers, Set<UserRole> userRoles, boolean enable, String password, String userName) {
+        this.id = id;
+        this.carts = carts;
+        this.vouchers = vouchers;
+        this.userRoles = userRoles;
+        this.enable = enable;
+        this.password = password;
+        this.userName = userName;
     }
-
 }
