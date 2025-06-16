@@ -186,7 +186,7 @@
         <mxCell id="jw3kU1oo2gF_xsULxeaj-27" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="jw3kU1oo2gF_xsULxeaj-22" target="jw3kU1oo2gF_xsULxeaj-25" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="jw3kU1oo2gF_xsULxeaj-22" value="User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+        <mxCell id="jw3kU1oo2gF_xsULxeaj-22" value="Khách" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
           <mxGeometry x="260" y="580" width="30" height="60" as="geometry" />
         </mxCell>
         <mxCell id="jw3kU1oo2gF_xsULxeaj-24" value="Đăng nhập" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
