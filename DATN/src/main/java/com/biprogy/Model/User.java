@@ -12,23 +12,31 @@ import java.util.Set;
 
 public class User {
 
-    @Getter
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Getter
     @Column(name = "username")
     private String userName;
 
-    @Getter
     @Column(name="password")
     private String password;
 
+    @Column(name = "fullname")
+    private String fullname;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name="email")
+    private String email;
+
     @Column(name = "enable")
     private boolean enable;
-    @Getter
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<UserRole> userRoles;
 
@@ -38,8 +46,14 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Order> orders;
 
-    @ManyToMany(mappedBy = "users")
-    private Set<Voucher> vouchers;
+    @OneToMany(mappedBy = "user")
+    private List<UserVoucher> userVouchers;
+
+    @OneToOne(mappedBy = "user")
+    private Wishlist wishlist;
+
+    @OneToMany(mappedBy = "user")
+    private List<Rating> ratings;
 
     public User() {
 
@@ -53,13 +67,20 @@ public class User {
         this.id = id;
     }
 
-    public User(Long id, Set<Cart> carts, Set<Voucher> vouchers, Set<UserRole> userRoles, boolean enable, String password, String userName) {
+    public User(Long id, String userName, String password, String fullname, String address, String phone, String email, boolean enable, Set<UserRole> userRoles, Set<Cart> carts, Set<Order> orders, List<UserVoucher> userVouchers, Wishlist wishlist, List<Rating> ratings) {
         this.id = id;
-        this.carts = carts;
-        this.vouchers = vouchers;
-        this.userRoles = userRoles;
-        this.enable = enable;
-        this.password = password;
         this.userName = userName;
+        this.password = password;
+        this.fullname = fullname;
+        this.address = address;
+        this.phone = phone;
+        this.email = email;
+        this.enable = enable;
+        this.userRoles = userRoles;
+        this.carts = carts;
+        this.orders = orders;
+        this.userVouchers = userVouchers;
+        this.wishlist = wishlist;
+        this.ratings = ratings;
     }
 }

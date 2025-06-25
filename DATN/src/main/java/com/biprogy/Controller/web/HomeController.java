@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Controller(value = "homeControllerOfWeb")
@@ -37,6 +38,9 @@ public class HomeController {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    OrderService orderService;
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -64,8 +68,17 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public ModelAndView indexPage(Model model) {
+    public ModelAndView index2Page(Model model, @Param("keyword") String keyword, @RequestParam(name = "pageNo",defaultValue = "1")Integer pageNo) {
         dbchung(model);
+        Page<Product> products = this.productService.getAll(pageNo);
+        if (keyword != null) {
+            products = this.productService.searchProduct(keyword,pageNo);
+            model.addAttribute("keyword",keyword);
+
+        }
+        model.addAttribute("totalPages",products.getTotalPages());
+        model.addAttribute("currentPage",pageNo);
+        model.addAttribute("products", products);
         return new ModelAndView("web/index2");
     }
 
@@ -124,11 +137,88 @@ public class HomeController {
 
 
     @RequestMapping(value = "/my-account")
-    String account(@ModelAttribute("user") User user,Model model) {
+    String account(Model model) {
+        Long userId = Long.valueOf(getLoggedInUserId());
         dbchung(model);
+        User user = this.userService.findById(userId);
+        Set<Order> orders = this.orderService.getOrdersByUserID(userId);
+        model.addAttribute("user", user);
+        model.addAttribute("orders", orders);
         return "web/account";
     }
 
 
+
+    @Autowired
+    WishlistService wishlistService;
+
+    @RequestMapping(value = "/list_wish")
+    String listWish(Model model) {
+        Long userId = Long.valueOf(getLoggedInUserId());
+        Set<Cart> carts=this.cartService.getCartByUserId(userId);
+        Cart cart=new Cart();
+        for (Cart i : carts) {
+            if (i.getCartstatus()){
+                cart=i;
+                break;
+            }
+        }
+        cart.setTotalprice(cart.getItems());
+        this.cartService.create(cart);
+        model.addAttribute("cart", cart);
+        Wishlist wishlist = this.wishlistService.getWishlistByUserId(userId);
+        model.addAttribute("wishlist", wishlist);
+        return "web/list_wish";
+    }
+
+
+    @Autowired
+    WishlistProductService wishlistProductService;
+
+    @RequestMapping(value = "/list_wish/{id}")
+    String listWish(@PathVariable Integer id, Model model) {
+        Long userId = Long.valueOf(getLoggedInUserId());
+        Wishlist wishlist = this.wishlistService.getWishlistByUserId(userId);
+        if (wishlist == null){
+            wishlist = new Wishlist();
+            wishlist.setUser(this.userService.findById(userId));
+            this.wishlistService.create(wishlist);
+        }
+        Product product = this.productService.findById(id);
+        WishlistProduct wlp = new WishlistProduct(product, wishlist);
+        model.addAttribute("wishlist", wishlist);
+        boolean wlstatus = false;
+        for (WishlistProduct wl : wishlist.getWishlistProducts()){
+                if (Objects.equals(wl.getProduct().getProductid(), id)){
+                    wlstatus = true;
+                    break;
+                }
+        }
+        if (!wlstatus){
+            this.wishlistProductService.create(wlp);
+        }
+        return "redirect:/list_wish";
+    }
+
+    @RequestMapping(value = "/detail/{id}")
+    public String detail(Model model, @PathVariable Integer id) {
+        Long userId = Long.valueOf(getLoggedInUserId());
+        dbchung(model);
+        Product product = this.productService.findById(id);
+        List<Rating> ratings = product.getRatings();
+        Double ratingsCount = 0.0;
+        Double ratingsTotal = 0.0;
+        for (Rating rating : ratings) {
+            ratingsTotal+=rating.getRatingValue();
+            ratingsCount++;
+        }
+        if (ratingsCount > 0){
+            product.setRating(ratingsTotal/ratingsCount);
+        }
+        productService.create(product);
+        model.addAttribute("product", product);
+        model.addAttribute("ratings", ratings);
+        return "web/detail";
+    }
 }
 

@@ -17,7 +17,7 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepostory categoryRepostory;
     @Override
     public List<Category> getAll() {
-        List<Category> categories = this.categoryRepostory.findAll();
+        List<Category> categories = this.categoryRepostory.findCate();
         for (Category category : categories) {
             category.setProductCount(category.getProducts().size());
         }

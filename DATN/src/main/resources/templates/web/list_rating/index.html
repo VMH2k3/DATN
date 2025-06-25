@@ -1,0 +1,83 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>VMHShop - Danh sách đơn hàng</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{assets/fe/img/logo.png}">
+
+    <link rel="stylesheet" th:href="@{assets/fe/css/plugins.css}">
+    <link rel="stylesheet" th:href="@{assets/fe/css/style.css}">
+
+</head>
+
+<body>
+<!--header area start-->
+<header th:replace="/web/fragments/header_area :: header"></header>
+<!--header area end-->
+
+<!--Offcanvas menu area start-->
+<div th:replace="/web/fragments/menu :: menu"></div>
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="/product">home</a></li>
+                        <li>Product Rating</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="Checkout_section mt-60">
+    <div class="container">
+        <div class="checkout_form">
+            <div class="row" th:each="order : ${orders}" >
+                <div class="">
+                    <form action="#">
+                        <h3>Đơn hàng của bạn</h3>
+                        <div class="order_table table-responsive">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Image</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="cartItem : ${order.getCart().getItems()} ">
+                                    <td th:text="${cartItem.product.productname}"></td>
+                                    <td><img th:src="@{'/assets/fe/img/product/'+${cartItem.product.image} }" alt="" ></td>
+                                    <td>
+                                        <a th:href="@{/list_rating/{id}(id=${cartItem.product.productid})}" class="btn btn-success">Product Rating</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="/web/fragments/footer :: footer"></div>
+<script th:src="@{assets/fe/js/plugins.js}"></script>
+<script th:src="@{assets/fe/js/main.js}"></script>
+
+
+
+</body>
+
+</html>

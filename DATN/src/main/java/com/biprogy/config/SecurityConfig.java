@@ -55,6 +55,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/",
+                                "/register",
+                                "/forgot-password",
                                 "/css/**",
                                 "/js/**",
                                 "/avatars/**",
@@ -64,8 +66,7 @@ public class SecurityConfig {
                                 "/img/**",
                                 "/scss/**",
                                 "/assets/**",
-                                "/login",
-                                "/register"  // Đã thêm /register vào danh sách permitAll
+                                "/login"// Đã thêm /register vào danh sách permitAll
                         ).permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()

@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>VMHShop - Danh sách đơn hàng</title>
     <meta name="description" content="">
@@ -42,103 +42,83 @@
             <div class="checkout_form">
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
-                        <form action="#">
-                            <h3>Billing Details</h3>
+                        <form action="/info" th:object="${user}" method="post" role="form">
+                            <h3>Thông tin của bạn</h3>
                             <div class="row">
-
                                 <div class="col-lg-6 mb-20">
+                                    <input type="hidden" th:field="*{id}">
                                     <label>Full Name <span>*</span></label>
-                                    <input type="text">    
+                                    <input type="text" th:field="*{fullname}">
                                 </div>
                                 <div class="col-12 mb-20">
-                                    <label for="country">country <span>*</span></label>
-                                    <select class="niceselect_option" name="cuntry" id="country"> 
-                                        <option value="2">bangladesh</option>      
-                                        <option value="3">Algeria</option> 
-                                        <option value="4">Afghanistan</option>    
-                                        <option value="5">Ghana</option>    
-                                        <option value="6">Albania</option>    
-                                        <option value="7">Bahrain</option>    
-                                        <option value="8">Colombia</option>    
-                                        <option value="9">Dominican Republic</option>   
-
-                                    </select>
+                                    <label>Địa chỉ<span>*</span></label>
+                                    <input placeholder="Địa chỉ của bạn" type="text" th:field="*{address}">
                                 </div>
-
-                                <div class="col-12 mb-20">
-                                    <label>Street address  <span>*</span></label>
-                                    <input placeholder="House number and street name" type="text">     
-                                </div>
-                                <div class="col-12 mb-20">
-                                    <input placeholder="Apartment, suite, unit etc. (optional)" type="text">     
-                                </div>
-                                <div class="col-12 mb-20">
-                                    <label>Town / City <span>*</span></label>
-                                    <input  type="text">    
-                                </div> 
-                                 <div class="col-12 mb-20">
-                                    <label>State / County <span>*</span></label>
-                                    <input type="text">    
-                                </div> 
                                 <div class="col-lg-6 mb-20">
-                                    <label>Phone<span>*</span></label>
-                                    <input type="text"> 
-
+                                    <label>Số điện thoại<span>*</span></label>
+                                    <input type="tel" th:field="*{phone}">
                                 </div> 
                                  <div class="col-lg-6 mb-20">
-                                    <label> Email Address   <span>*</span></label>
-                                      <input type="text"> 
-
+                                    <label>Địa chỉ email<span>*</span></label>
+                                      <input type="email" th:field="*{email}">
                                 </div>
                             </div>
-                        </form>    
+                            <button type="submit" >Lưu thông tin</button>
+                        </form>
                     </div>
                     <div class="col-lg-6 col-md-6">
-                        <form action="#">    
-                            <h3>Your order</h3> 
+                        <form action="/checkout" method="post" role="form">
+                            <h3>Đơn hàng của bạn</h3>
+                            <input type="hidden" th:value="${cart.id}" name="cartId">
                             <div class="order_table table-responsive">
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th>Product</th>
-                                            <th>Total</th>
+                                            <th>Sản phẩm</th>
+                                            <th>Giá</th>
+                                            <th>Số lượng</th>
+                                            <th>Tổng</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td> Handbag  fringilla <strong> × 2</strong></td>
-                                            <td> $165.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>  Handbag  justo	 <strong> × 2</strong></td>
-                                            <td> $50.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>  Handbag elit	<strong> × 2</strong></td>
-                                            <td> $50.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td> Handbag Rutrum	 <strong> × 1</strong></td>
-                                            <td> $50.00</td>
+                                        <tr th:each="cartItem:${cart.getItems()}">
+                                            <td th:text="${cartItem.product.productname}"></td>
+                                            <td th:text="${cartItem.price}"></td>
+                                            <td th:text="${cartItem.quanlity}"></td>
+                                            <td th:text="${cartItem.totalprice}"></td>
                                         </tr>
                                     </tbody>
-                                    <tfoot>
+                                    <tfoot th:object="${cart}">
                                         <tr>
                                             <th>Cart Subtotal</th>
-                                            <td>$215.00</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td th:text="${cart.getTotalprice()}"></td>
                                         </tr>
                                         <tr>
                                             <th>Shipping</th>
-                                            <td><strong>$5.00</strong></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>5</td>
                                         </tr>
                                         <tr class="order_total">
                                             <th>Order Total</th>
-                                            <td><strong>$220.00</strong></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><strong th:text="${cart.getTotalprice()}+5"></strong></td>
                                         </tr>
                                     </tfoot>
                                 </table>     
                             </div>
-                        </form>         
+                            <h3>Lựa chọn voucher của bạn</h3>
+                                <select class="form-control" id="voucherSelect" name="userVoucherId" style="margin-bottom:1em;appearance:auto;">
+                                    <option th:each="userVoucher : ${userVouchers}"
+                                            th:value="${userVoucher.id}"
+                                            th:text="${userVoucher.voucher.code + ' - ' + userVoucher.voucher.description}">
+                                    </option>
+                                </select>
+                            <button type="submit" >Thanh toán</button>
+                        </form>
                     </div>
                 </div> 
             </div> 

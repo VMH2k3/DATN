@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en"
+      xlmns:th="http://www.thymeleaf.org"
+      xmlns:xlmns="http://www.w3.org/1999/xhtml"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>VMHShop - product</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/fe/img/logo.png}">
+    <link rel="stylesheet" th:href="@{/assets/fe/css/plugins.css}">
+    <link rel="stylesheet" th:href="@{/assets/fe/css/style.css}">
+</head>
+<body>
+
+<!--header area start-->
+<header th:replace="/web/fragments/header_area :: header"></header>
+<!--header area end-->
+
+<!--Offcanvas menu area start-->
+<div th:replace="/web/fragments/menu :: menu"></div>
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="/product">home</a></li>
+                        <li>Product </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="shop_area shop_reverse mt-50 mb-50">
+    <div class="container">
+        <div class="row">
+            <div>
+                <div class="shop_title">
+                    <h1>product detail</h1>
+                </div>
+                <!--shop toolbar end-->
+
+                <!-- Fixed product grid layout -->
+                <div class="row no-gutters">
+                    <!-- Each product gets its own col-4 div for 3 columns layout -->
+                    <div class="single_product">
+                        <div class="row" style="display: flex; align-items: flex-start; margin: 0;">
+                            <div class="product_thumb col-4" style="padding: 15px;">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#modal_box">
+                                    <img th:src="@{'/assets/fe/img/product/'+${product.image}}"
+                                         alt=""
+                                         style="width: 100%; height: 250px; object-fit: cover; border-radius: 8px;">
+                                </a>
+                            </div>
+                            <div class="product_content list_content col-8" style="margin: 0; padding: 15px;display: flex;align-items: start;">
+                                <div>
+                                    <h3 th:text="${product.productname}"></h3>
+                                </div>
+                                <div>
+                                    <span>
+                                    <i class="zmdi zmdi-star-outline" style="color: orange"></i>:
+                                    <span th:text="${product.rating}+'/5'"></span>
+                                    </span>
+                                </div>
+                                    <div><span th:text="'Color: '+${product.color}"></span></div>
+                                    <div><span th:text="'Size: '+${product.size}"></span></div>
+                                <div >
+                                     <span class="current_price"
+                                        th:text="${#numbers.formatDecimal(product.price, 1, 2)}"
+                                        style="font-size: 1.5rem; color: #ff6b35; font-weight: bold; margin-right: 10px;"></span>
+                                    <span class="old_price"
+                                          th:text="${#numbers.formatDecimal(product.price*1.1, 1, 2)}"
+                                          style="text-decoration: line-through; color: #999;"></span>
+                                </div>
+                                <div class="product_desc" style="margin-bottom: 15px;">
+                                    <p th:text="'Mô tả: '+${product.description}"></p>
+                                </div>
+                                <div class="action_links">
+                                    <ul style="list-style: none; padding: 0; display: flex; gap: 15px; align-items: center;">
+                                        <li class="/wishlist">
+                                            <a th:href="@{/list_wish/{id}(id=${product.productid})}"
+                                               title="Add to wishlist"
+                                               style="color: #ff6b35; font-size: 1.2rem;">
+                                                <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li class="add_to_cart">
+                                            <form role="form" th:action="@{/product}" method="post" th:object="${product}" style="margin: 0;">
+                                                <input type="hidden" name="productid" th:value="${product.productid}" />
+                                                <button type="submit"
+                                                        style="background: #0b0b0b; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                                    <i class="zmdi zmdi-shopping-cart-plus"></i>
+                                                    <span class="add_to_cart">ADD TO CART</span>
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Review Section Start -->
+<div class="review_area mt-50 mb-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section_title">
+                    <h2>Customer Reviews</h2>
+                </div>
+                <div class="customer_review" th:each="rating:${ratings}">
+                    <div class="review_item">
+                        <div class="review_header d-flex justify-content-between">
+                            <div class="review_author_info">
+                                <span class="review_author_name" th:text="'Account: '+${rating.user.userName}"></span>
+                                <div class="product_rating">
+                                    <i class="zmdi zmdi-star-outline" style="color: orange"></i>:
+                                    <span th:text="${rating.ratingValue}+'/5'"></span>
+                                </div>
+                            </div>
+                            <span class="review_date" th:text="${#dates.format(rating.ratingDate, 'yyyy-MM-dd HH:mm')}"></span>
+                        </div>
+                        <div class="review_content">
+                            <p th:text="'Comment: '+${rating.comment}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Review Section End -->
+<div th:replace="/web/fragments/footer :: footer"></div>
+
+
+<script th:src="@{/assets/fe/js/plugins.js}"></script>
+<script th:src="@{/assets/fe/js/main.js}"></script>
+<script>
+</script>
+</body>
+</html>

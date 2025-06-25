@@ -54,7 +54,7 @@
                 </ul>
             </li>
             <li class="">
-                <a href="/admin/account">
+                <a href="/admin/user">
                     <i class="menu-icon fa fa-user"></i>
                    Người dùng
                 </a>
@@ -70,7 +70,15 @@
                 <b class="arrow"></b>
             </li>
             <li class="">
-                <a href="/admin/order">
+                <a href="/admin/voucher">
+                    <i class="menu-icon fa fa-tag"></i>
+                    Quản lý voucher
+                </a>
+
+                <b class="arrow"></b>
+            </li>
+            <li class="">
+                <a href="/admin/revenue">
                     <i class="menu-icon fa fa-line-chart"></i>
                     Quản lý doanh thu
                 </a>
@@ -78,12 +86,27 @@
                 <b class="arrow"></b>
             </li>
         </ul><!-- /.nav-list -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var sidebar = document.getElementById('sidebar');
+                var links = sidebar.querySelectorAll('ul.nav-list a');
+                var currentPath = window.location.pathname;
 
-        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-            <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-        </div>
+                // Đặt active dựa vào URL hiện tại
+                var found = false;
+                links.forEach(function(link) {
+                    var li = link.closest('li');
+                    if (li) li.classList.remove('active');
+                    // So sánh path tuyệt đối
+                    if (link.getAttribute('href') === currentPath) {
+                        if (li) li.classList.add('active');
+                        found = true;
+                    }
+                });
 
-        <script type="text/javascript">
-            try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+                // Nếu không tìm thấy, giữ nguyên active mặc định
+            });
         </script>
+
     </div>
+

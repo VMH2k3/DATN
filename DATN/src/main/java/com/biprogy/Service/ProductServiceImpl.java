@@ -75,8 +75,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Page<Product> filterProduct(List<Product> list, Integer pageNo) {
+        Pageable pageable = PageRequest.of(pageNo-1, 9);
+        int start = (int) pageable.getOffset();
+        int end = (int) ((pageable.getOffset()+ pageable.getPageSize()) > list.size() ? list.size() : pageable.getPageSize()+pageable.getOffset());
+        List<Product> list2 = list.subList(start, end);
+        return new PageImpl<Product>(list2, pageable, list.size());
+    }
+
+    @Override
     public Page getAll(Integer pageNo) {
-        Pageable pageable = PageRequest.of(pageNo-1, 5);
+        Pageable pageable = PageRequest.of(pageNo-1, 9);
         return this.productRepository.findAll(pageable);
     }
 }

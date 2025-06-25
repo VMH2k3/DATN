@@ -32,7 +32,7 @@
                 <div class="col-12">
                     <div class="breadcrumb_content">
                         <ul>
-                            <li><a href="index.html">home</a></li>
+                            <li><a href="/index">home</a></li>
                             <li>Shopping Cart</li>
                         </ul>
                     </div>
@@ -53,28 +53,28 @@
                                 <table>
                             <thead>
                                 <tr>
-                                    <th class="product_remove">Delete</th>
-                                    <th class="product_thumb">Image</th>
-                                    <th class="product_name">Product</th>
-                                    <th class="product-price">Price</th>
-                                    <th class="product_quantity">Quantity</th>
-                                    <th class="product_total">Total</th>
+                                    <th >Delete</th>
+                                    <th >Image</th>
+                                    <th>Product</th>
+                                    <th >Price</th>
+                                    <th >Quantity</th>
+                                    <th >Total</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr th:each="item,iterStat  : ${cart.items}">
-                                   <td class="product_remove"><a th:href="@{/product/delete/{id}(id=${item.product.productid})}" onclick="return confirm('Bạn chắc chắn muốn xóa chứ ?')" ><i class="fa fa-trash-o"></i></a></td>
-                                    <td class="product_thumb"><a href="#"><img th:src="@{${item.product.image}}" alt=""></a></td>
-                                    <td class="product_name"><a href="#" th:text="${item.product.productname}"></a></td>
-                                    <td class="product-price" th:text="${item.product.price}"></td>
-                                    <td class="product_quantity"  th:text="${item.quanlity}"></td>
-                                    <td class="product_total" th:text="${item.quanlity * item.product.price}"></td>
+                                   <td ><a th:href="@{/product/delete/{id}(id=${item.product.productid})}" onclick="return confirm('Bạn chắc chắn muốn xóa chứ ?')" ><i class="fa fa-trash-o"></i></a></td>
+                                    <td ><a href="#"><img th:src="@{'/assets/fe/img/product/'+${item.product.image}}" alt=""></a></td>
+                                    <td ><a href="#" th:text="${item.product.productname}"></a></td>
+                                    <td  th:text="${item.product.price}"></td>
+                                    <td   th:text="${item.quanlity}"></td>
+                                    <td  th:text="${item.quanlity * item.product.price}"></td>
                                 </tr>
                             </tbody>
                         </table>   
                             </div>  
                             <div class="cart_submit" th:object="${cart}">
-                                <button type="button" ><a th:href="@{/checkout/{id}(id=${cart.id})}"  >Thanh toán</a></button>
+                                <button type="button" ><a href="/checkout"  >Thanh toán</a></button>
                             </div>      
                         </div>
                      </div>

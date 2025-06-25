@@ -12,9 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class ProductWebController {
@@ -40,6 +42,9 @@ public class ProductWebController {
     @Autowired
     ProductService productService;
 
+    @Autowired
+    UserService userService;
+
 
     @RequestMapping(value = "/product", method = RequestMethod.GET)
     public ModelAndView productPage(Model model, @Param("keyword") String keyword, @RequestParam(name = "pageNo",defaultValue = "1")Integer pageNo) {
@@ -57,8 +62,12 @@ public class ProductWebController {
         List<CartItem> cartItems = this.cartItemService.getCartItems(cart.getId());
         model.addAttribute("cartItems", cartItems);
         model.addAttribute("cart", cart);
+        List<Product> list = this.productService.getAll();
+        List<Product> filteredList = list.stream()
+                .filter(i -> i.getCategory().getCategorystatus())  // Giữ lại sản phẩm có category status là true
+                .collect(Collectors.toList());
 
-        Page<Product> products = this.productService.getAll(pageNo);
+        Page<Product> products = this.productService.filterProduct(filteredList,pageNo);
         if (keyword != null) {
             products = this.productService.searchProduct(keyword,pageNo);
             model.addAttribute("keyword",keyword);
@@ -74,19 +83,21 @@ public class ProductWebController {
     public String addCartItem(@RequestParam("productid") Integer productId) {
         Long userId = Long.valueOf(getLoggedInUserId());
         Set<Cart> carts=this.cartService.getCartByUserId(userId);
-        Cart cart=new Cart();
+        Cart cart = null;
         for (Cart i : carts) {
             if (i.getCartstatus()){
                 cart=i;
                 break;
             }
         }
+        if (cart==null){
+            cart = new Cart();
+            cart.setUser(this.userService.findById(userId));
+            cart.setCartstatus(true);
+            this.cartService.create(cart);
+        }
         Product product = productService.findById(productId);
 
-        if (product == null || cart == null) {
-            System.err.println("Lỗi: Product hoặc Cart không tồn tại trong DB");
-            return "redirect:/product";
-        }
 
         List<CartItem> cartItems = cartItemService.getCartItems(cart.getId());
         for (CartItem item : cartItems) {
@@ -108,32 +119,25 @@ public class ProductWebController {
     public String deleteCartItem(@PathVariable Integer id) {
         Long userId = Long.valueOf(getLoggedInUserId());
         Set<Cart> carts=this.cartService.getCartByUserId(userId);
-        Cart cart=new Cart();
+        Cart cart = null;
         for (Cart i : carts) {
             if (i.getCartstatus()){
                 cart=i;
                 break;
             }
         }
-        cart.setTotalprice(cart.getItems());
-        this.cartService.create(cart);
-        Product product = productService.findById(id);
-
-        if (product == null || cart == null) {
-            System.err.println("Lỗi: Product hoặc Cart không tồn tại");
-            return "redirect:/cart";
+        if (cart==null){
+            cart = new Cart();
+            cart.setUser(this.userService.findById(userId));
+            cart.setCartstatus(true);
+            this.cartService.create(cart);
         }
-
-        List<CartItem> cartItems = cartItemService.getCartItems(cart.getId());
+        List<CartItem> cartItems = this.cartItemService.getCartItems(cart.getId());
         for (CartItem item : cartItems) {
             if (Objects.equals(item.getProduct().getProductid(), id)) {
-                if (item.getQuanlity() > 1) {
-                    item.setQuanlity(item.getQuanlity() - 1);
-                    item.setTotalprice(item.getPrice(), item.getQuanlity());
-                    cartItemService.create(item);
-                    return "redirect:/cart";
-                } else {
-                    cartItemService.delete(item.getId());
+                if(cartItemService.delete(item.getId())){
+                    cart.setTotalprice(cart.getItems());
+                    this.cartService.create(cart);
                     return "redirect:/cart";
                 }
             }

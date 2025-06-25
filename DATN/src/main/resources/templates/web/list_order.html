@@ -1,0 +1,127 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>VMHShop - Danh sách đơn hàng</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{assets/fe/img/logo.png}">
+    <link rel="stylesheet" th:href="@{assets/fe/css/plugins.css}">
+    <link rel="stylesheet" th:href="@{assets/fe/css/style.css}">
+
+</head>
+
+<body>
+<!--header area start-->
+<header th:replace="/web/fragments/header_area :: header"></header>
+<!--header area end-->
+
+<!--Offcanvas menu area start-->
+<div th:replace="/web/fragments/menu :: menu"></div>
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="/product">home</a></li>
+                        <li>Checkout</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="Checkout_section mt-60">
+    <div class="container">
+        <div class="checkout_form">
+            <div class="row" th:each="order:${orders}" >
+                <div class="col-lg-6 col-md-6">
+                    <form action="#">
+                        <h3>Thông tin đơn hàng</h3>
+                        <div class="row">
+                            <div class="col-lg-6 mb-20">
+                                <span>Ngày đặt: </span>
+                                <span th:text="${#dates.format(order.oderdate, 'dd/MM/yyyy')}"></span>
+                            </div>
+                            <div class="col-12 mb-20">
+                                <span>Ngày nhận(Dự tính): </span>
+                                <span th:text="${#dates.format(order.shipdate, 'dd/MM/yyyy')}"></span>
+                            </div>
+                            <div class="col-lg-6 mb-20">
+                                <span>Trạng thái: </span>
+                                <span th:text="${order.oderstatus}"></span>
+                            </div>
+                            <div class="col-lg-6 mb-20">
+                                <span>Voucher: </span>
+                                <span th:if="${order.voucher != null}" th:text="'Dùng '+${order.voucher.description}"></span>
+                                <span th:unless="${order.voucher != null}">Không dùng voucher</span>
+                            </div>
+                        </div>
+                        <button type="button" ><a th:href="@{/list_order/{id}(id=${order.id})}">Đã nhận hàng</a></button>
+                    </form>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <form action="#">
+                        <h3>Đơn hàng của bạn</h3>
+                        <div class="order_table table-responsive">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th>Giá</th>
+                                    <th>Số lượng</th>
+                                    <th>Tổng</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="cartItem:${order.getCart().getItems()}">
+                                    <td th:text="${cartItem.product.productname}"></td>
+                                    <td th:text="${cartItem.price}"></td>
+                                    <td th:text="${cartItem.quanlity}"></td>
+                                    <td th:text="${cartItem.totalprice}"></td>
+                                </tr>
+                                </tbody>
+                                <tfoot >
+                                <tr>
+                                    <th>Cart Subtotal</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td th:text="${order.cart.totalprice}"></td>
+                                </tr>
+                                <tr>
+                                    <th>Shipping</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td>5</td>
+                                </tr>
+                                <tr class="order_total">
+                                    <th>Order Total</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td><strong th:text="${order.orderprice}+5"></strong></td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="/web/fragments/footer :: footer"></div>
+<script th:src="@{assets/fe/js/plugins.js}"></script>
+<script th:src="@{assets/fe/js/main.js}"></script>
+
+
+
+</body>
+
+</html>

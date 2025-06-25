@@ -14,5 +14,6 @@ public interface ProductService {
     Boolean delete(Integer id);
     List<Product> searchProduct(String keyword);
     Page<Product> searchProduct(String keyword, Integer pageNo);
+    Page<Product> filterProduct(List<Product> list, Integer pageNo);
     Page getAll(Integer pageNo);
 }

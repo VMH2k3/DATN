@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thống kê doanh thu theo tuần</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/assets/fe/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/fe/font-awesome/4.2.0/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/fe/css/ace.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/fe/css/ace-skins.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/fe/css/ace-rtl.min.css}" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container { width: 100%; max-width: 800px; margin: 40px auto; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body class="no-skin">
+<!-- NAVBAR -->
+<div th:replace="admin/fragments/navbar :: navbar"></div>
+
+<div class="main-container ace-save-state" id="main-container">
+    <!-- SIDEBAR -->
+    <div th:replace="admin/fragments/sidebar :: sidebar"></div>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <div class="page-content">
+                <!-- SETTINGS -->
+                <div class="page-header">
+                    <h1>Thống kê doanh thu theo tuần</h1>
+                </div>
+                <form method="get" action="" style="margin-bottom: 20px;">
+                    <label>Chọn số tuần gần nhất: </label>
+                    <input type="number" name="weeks" min="1" max="52" th:value="${weeks}"/>
+                    <button type="submit" class="btn btn-primary">Xem</button>
+                </form>
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>Năm</th>
+                        <th>Tuần</th>
+                        <th>Khoảng thời gian</th>
+                        <th>Doanh thu (VNĐ)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="row,iter : ${revenueList}">
+                        <td th:text="${row[0]}"></td>
+                        <td th:text="${row[1]}"></td>
+                        <td th:text="${weekRanges[iter.index]}"></td>
+                        <td th:text="${#numbers.formatDecimal(row[2], 0, 'COMMA', 0, 'POINT')}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/assets/fe/js/jquery.1.11.1.min.js}"></script>
+<script type="text/javascript">
+    window.jQuery || document.write("<script th:src='@{/assets/fe/js/jquery.min.js}'>"+"<"+"/script>");
+</script>
+<script type="text/javascript">
+    window.jQuery || document.write("<script th:src='@{/assets/fe/js/jquery1x.min.js}'>"+"<"+"/script>");
+</script>
+<script type="text/javascript">
+    if('ontouchstart' in document.documentElement) document.write("<script th:src='@{/assets/fe/js/jquery.mobile.custom.min.js}'>"+"<"+"/script>");
+</script>
+<script th:src="@{/assets/fe/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/fe/js/excanvas.min.js}"></script>
+<script th:src="@{/assets/fe/js/jquery-ui.custom.min.js}"></script>
+<script th:src="@{/assets/fe/js/jquery.ui.touch-punch.min.js}"></script>
+<script th:src="@{/assets/fe/js/jquery.easypiechart.min.js}"></script>
+<script th:src="@{/assets/fe/js/jquery.sparkline.min.js}"></script>
+<script th:src="@{/assets/fe/js/jquery.flot.min.js}"></script>
+<script th:src="@{/assets/fe/js/jquery.flot.pie.min.js}"></script>
+<script th:src="@{/assets/fe/js/jquery.flot.resize.min.js}"></script>
+<script th:src="@{/assets/fe/js/ace-elements.min.js}"></script>
+<script th:src="@{/assets/fe/js/ace.min.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    let weekRanges = [[${weekRanges}]];
+    let labels = [[${revenueList}]].map(function(row, idx) {
+        return 'Năm ' + row[0] + ' - Tuần ' + row[1] + ' (' + weekRanges[idx] + ')';
+    });
+    let data = [[${revenueList}]].map(row => row[2]);
+    let ctx = document.getElementById('revenueChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Doanh thu (VNĐ)',
+                data: data,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                title: { display: true, text: 'Biểu đồ doanh thu theo tuần' }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

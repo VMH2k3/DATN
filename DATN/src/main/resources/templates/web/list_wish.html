@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en"
+      xlmns:th="http://www.thymeleaf.org"
+      xmlns:xlmns="http://www.w3.org/1999/xhtml"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>VMHShop - product</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{assets/fe/img/logo.png}">
+    <link rel="stylesheet" th:href="@{assets/fe/css/plugins.css}">
+    <link rel="stylesheet" th:href="@{assets/fe/css/style.css}">
+</head>
+<body>
+
+<!--header area start-->
+<header th:replace="/web/fragments/header_area :: header"></header>
+<!--header area end-->
+
+<!--Offcanvas menu area start-->
+<div th:replace="/web/fragments/menu :: menu"></div>
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="/product">home</a></li>
+                        <li>WishList </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="shop_area shop_reverse mt-50 mb-50">
+    <div class="container">
+        <div class="row">
+            <div >
+                <div class="shop_title">
+                    <h1>wish list</h1>
+                </div>
+                <!--shop toolbar end-->
+
+                <!-- Fixed product grid layout -->
+                <div class="row no-gutters shop_wrapper grid_list">
+                    <!-- Each product gets its own col-4 div for 3 columns layout -->
+                    <div class="col-lg-4 col-md-6 col-sm-12" th:each="wlp:${wishlist.getWishlistProducts()}">
+                        <div class="single_product"
+                             th:data-product-id="${wlp.product.productid}"
+                             th:data-product-name="${wlp.product.productname}"
+                             th:data-product-price="${wlp.product.price}"
+                             th:data-product-image="${wlp.product.image}"
+                             th:data-product-description="${wlp.product.description}"
+                             th:data-product-size="${wlp.product.size}"
+                             th:data-product-color="${wlp.product.color}"
+                        >
+                            <div class="product_thumb">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#modal_box"><img th:src="@{'/assets/fe/img/product/'+${wlp.product.image} }" alt="" ></a>
+                            </div>
+                            <div class="product_content list_content">
+                                <div class="product_name">
+                                    <h3><a href="#" data-bs-toggle="modal" data-bs-target="#modal_box" th:text="${wlp.product.productname}"></a></h3>
+                                </div>
+                                <div class="product_rating">
+                                    <ul>
+                                        <li><a href="#"><i class="zmdi zmdi-star-outline"></i></a></li>
+                                        <li><a href="#"><i class="zmdi zmdi-star-outline"></i></a></li>
+                                        <li><a href="#"><i class="zmdi zmdi-star-outline"></i></a></li>
+                                        <li><a href="#"><i class="zmdi zmdi-star-outline"></i></a></li>
+                                        <li><a href="#"><i class="zmdi zmdi-star-outline"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product_details">
+                                    <div><span th:text="'Color: '+${wlp.product.color}"></span></div>
+                                    <div><span th:text="'Size: '+${wlp.product.size}"></span></div>
+                                </div>
+                                <div class="price_box">
+                                    <span class="current_price" th:text="${#numbers.formatDecimal(wlp.product.price, 1, 2)}"></span>
+                                    <span class="old_price" th:text="${#numbers.formatDecimal(wlp.product.price*1.1, 1, 2)}"></span>
+                                </div>
+
+                                <div class="product_desc">
+                                    <p th:text="'Mô tả: '+${wlp.product.description}"></p>
+                                </div>
+
+                                <div class="action_links">
+                                    <ul>
+                                        <li class="add_to_cart">
+                                            <form role="form" th:action="@{/product}" method="post" th:object="${wlp.product}">
+                                                <input type="hidden" name="productid" th:value="${wlp.product.productid}" />
+                                                <button type="submit"><i class="zmdi zmdi-shopping-cart-plus"></i><span class="add_to_cart"> ADD TO CART</span></button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="/web/fragments/footer :: footer"></div>
+
+<div class="modal fade" id="modal_box" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="modal_body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-12">
+                            <div class="modal_img">
+                                <a href="#"><img id="modalProductImage" src="" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-12">
+                            <div class="modal_right">
+                                <div class="modal_title mb-10">
+                                    <h2 id="modalProductName"></h2>
+                                </div>
+                                <div class="modal_price mb-10">
+                                    <span class="new_price" id="modalProductPrice"></span>
+                                    <span class="old_price" id="modalProductOldPrice"></span>
+                                </div>
+                                <div class="modal_description mb-15">
+                                    <p id="modalProductDescription"></p>
+                                </div>
+                                <div class="variants_selects">
+                                    <div class="variants_size">
+                                        <h2>size</h2>
+                                        <span id="modalProductSize"></span>
+                                    </div>
+                                    <div class="variants_color">
+                                        <h2>color</h2>
+                                        <span id="modalProductColor"></span>
+                                    </div>
+                                    <div class="modal_add_to_cart">
+                                        <form role="form" th:action="@{/product}" method="post" th:object="${product}">
+                                            <input type="hidden" name="productid" id="modalProductId"/>
+                                            <button style="margin: 0;" type="submit"><span class="add_to_cart"> ADD TO CART</span></button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{assets/fe/js/plugins.js}"></script>
+<script th:src="@{assets/fe/js/main.js}"></script>
+<script>
+    document.getElementById('modal_box').addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget;
+        // Find the parent product element
+        var productElement = button.closest('.single_product');
+
+        if (productElement) {
+            // Extract data from data-* attributes
+            var productId = productElement.dataset.productId;
+            var productName = productElement.dataset.productName;
+            var productPrice = parseFloat(productElement.dataset.productPrice);
+            var productImage = productElement.dataset.productImage;
+            var productDescription = productElement.dataset.productDescription;
+            var productSize = productElement.dataset.productSize;
+            var productColor = productElement.dataset.productColor;
+
+            // Update modal content
+            document.getElementById('modalProductId').value=productId;
+            document.getElementById('modalProductImage').src = '/assets/fe/img/product/'+productImage;
+            document.getElementById('modalProductName').textContent = productName;
+            document.getElementById('modalProductPrice').textContent = '$' + productPrice.toFixed(2);
+            document.getElementById('modalProductOldPrice').textContent = '$' + (productPrice * 1.1).toFixed(2);
+            document.getElementById('modalProductDescription').textContent = 'Mô tả: ' + productDescription;
+
+            // Display single size and color
+            document.getElementById('modalProductSize').textContent = productSize || 'N/A';
+            document.getElementById('modalProductColor').textContent = productColor || 'N/A';
+        }
+    });
+</script>
+</body>
+</html>

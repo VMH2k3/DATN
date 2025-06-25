@@ -3,7 +3,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.awt.print.Book;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -16,31 +18,32 @@ public class Voucher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @Column(name = "code", nullable = false, unique = true, length = 50)
-    private String code;  // Mã voucher
+    private String code;
 
     @Column(name = "description", length = 255)
-    private String description;  // Mô tả voucher
+    private String description;
 
     @Column(name = "discount_percent")
-    private Integer discountPercent;  // % giảm giá
+    private Integer discountPercent;
 
     @Column(name = "start_date")
-    private LocalDate startDate;  // Ngày bắt đầu hiệu lực
+    private LocalDate startDate;
 
     @Column(name = "end_date")
-    private LocalDate endDate;  // Ngày kết thúc hiệu lực
+    private LocalDate endDate;
+
 
     @Column(name = "active")
-    private Boolean active;  // Trạng thái kích hoạt voucher
+    private Boolean active;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_voucher",
-            joinColumns = @JoinColumn(name = "voucher_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<User> users;
+    @OneToMany(mappedBy = "voucher")
+    private Set<UserVoucher> userVouchers;
+
+
+    @OneToMany(mappedBy = "voucher")
+    private List<Order> orderList;
 
     // Constructor không tham số (bắt buộc cho JPA)
     public Voucher() {
@@ -56,15 +59,15 @@ public class Voucher {
         this.active = active;
     }
 
-    public Voucher(Long id, Set<User> users, Boolean active, LocalDate endDate, LocalDate startDate, Integer discountPercent, String description, String code) {
+    public Voucher(Long id, String code, String description, Integer discountPercent, LocalDate startDate, LocalDate endDate, Boolean active, Set<UserVoucher> userVouchers) {
         this.id = id;
-        this.users = users;
-        this.active = active;
-        this.endDate = endDate;
-        this.startDate = startDate;
-        this.discountPercent = discountPercent;
-        this.description = description;
         this.code = code;
+        this.description = description;
+        this.discountPercent = discountPercent;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.active = active;
+        this.userVouchers = userVouchers;
     }
 }
 

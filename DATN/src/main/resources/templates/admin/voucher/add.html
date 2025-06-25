@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en"
+      xlmns:th="http://www.thymeleaf.org"
+      xmlns:xlmns="http://www.w3.org/1999/xhtml"
+>
+<head>
+    <title>Thêm Voucher - VMHShop Admin</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/assets/fe/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/fe/font-awesome/4.2.0/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/fe/css/ace.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/fe/css/ace-skins.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/fe/css/ace-rtl.min.css}" />
+</head>
+
+<body class="no-skin">
+<div th:replace="/admin/fragments/navbar :: navbar"></div>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+    <div th:replace="/admin/fragments/sidebar :: sidebar"></div>
+
+    <div class="main-content">
+        <div class="main-content-inner">
+            <div class="page-content">
+
+                <div class="page-header">
+                    <h1>
+                        Voucher
+                    </h1>
+                </div><!-- /.page-header -->
+
+                <div class="container mt-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Thêm Voucher</h2>
+                        </div>
+                        <div class="card-body">
+                            <form role="form" method="post" th:action="@{/admin/add-voucher}" th:object="${voucher}" >
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label for="voucherCode">Mã</label>
+                                        <input type="text" class="form-control" id="voucherCode"
+                                               placeholder="Input Voucher Code" th:field="*{code}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="voucherValue">Phần trăm giảm giá</label>
+                                        <input type="number" class="form-control" id="voucherValue"
+                                               placeholder="Input Discount Percent" th:field="*{discountPercent}">
+                                    </div>
+                                    <label for="startdate">Ngày bắt đầu</label>
+                                    <input type="date" id="startdate" th:field="*{startDate}" th:value="${#temporals.format(voucher.startDate, 'yyyy-MM-dd HH:mm:ss.SSS')}">
+
+                                    <label for="enddate">Ngày kết thúc</label>
+                                    <input type="date" id="enddate" th:field="*{endDate}" th:value="${#temporals.format(voucher.endDate, 'yyyy-MM-dd HH:mm:ss.SSS')}">
+
+                                    <div class="form-group">
+                                        <label for="voucheractive">Trang thái</label>
+                                        <select type="text" class="form-control" id="voucheractive"
+                                                th:field="*{active}">
+                                            <option th:value="true">True</option>
+                                            <option th:value="false">False</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description">Mô tả</label>
+                                        <textarea name="description" id="description" rows="3" cols="80" th:field="*{description}"
+                                                  class="form-control" placeholder="Input Description"></textarea>
+                                    </div>
+                                    <div class="box-footer">
+                                        <button type="submit" class="btn btn-primary">Lưu Voucher</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+
+    <div class="footer">
+        <div class="footer-inner">
+            <div class="footer-content">
+						<span class="bigger-120">
+							<span class="blue bolder">VMH</span>
+							Shop &copy; 2025
+						</span>
+                <span class="action-buttons">
+							<a href="#">
+								<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
+							</a>
+
+							<a href="#">
+								<i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
+							</a>
+
+							<a href="#">
+								<i class="ace-icon fa fa-rss-square orange bigger-150"></i>
+							</a>
+						</span>
+            </div>
+        </div>
+    </div>
+
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->
+<script th:src="@{/assets/fe/js/jquery.2.1.1.min.js}"></script>
+<script th:src="@{/assets/fe/js/jquery.1.11.1.min.js}"></script>
+<script type="text/javascript">
+    window.jQuery || document.write("<script th:src='@{/assets/fe/js/jquery.min.js}'>"+"<"+"/script>");
+</script>
+<script type="text/javascript">
+    window.jQuery || document.write("<script th:src='@{/assets/fe/js/jquery1x.min.js}'>"+"<"+"/script>");
+</script>
+<script type="text/javascript">
+    if('ontouchstart' in document.documentElement) document.write("<script th:src='@{/assets/fe/js/jquery.mobile.custom.min.js}'>"+"<"+"/script>");
+</script>
+<script th:src="@{/assets/fe/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/fe/js/bootstrap-datepicker.min.js}"></script>
+<script th:src="@{/assets/fe/js/jquery.jqGrid.min.js}"></script>
+<script th:src="@{/assets/fe/js/grid.locale-en.js}"></script>
+<script th:src="@{/assets/fe/js/ace-elements.min.js}"></script>
+<script th:src="@{/assets/fe/js/ace.min.js}"></script>
+
+</body>
+</html>

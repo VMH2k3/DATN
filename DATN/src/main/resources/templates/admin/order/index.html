@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en"
+      xlmns:th="http://www.thymeleaf.org"
+      xmlns:xlmns="http://www.w3.org/1999/xhtml"
+>
+<head>
+    <title>Danh sách đơn hàng - VMHShop Admin</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/assets/fe/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/fe/font-awesome/4.2.0/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/fe/css/ace.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/fe/css/ace-skins.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/fe/css/ace-rtl.min.css}" />
+</head>
+
+<body class="no-skin">
+<div th:replace="/admin/fragments/navbar :: navbar"></div>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+    <div th:replace="/admin/fragments/sidebar :: sidebar"></div>
+
+    <div class="main-content">
+        <div class="main-content-inner">
+            <div class="page-content">
+            <div class="page-header">
+                    <h1>
+                        Đơn hàng
+                    </h1>
+                </div><!-- /.page-header -->
+
+                <div class="container mt-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <b>Danh sách đơn hàng</b>
+                        </div>
+
+
+                        <div class="card-body">
+                            <form action="">
+                                <div class="input-group input-group-sm hidden-xs" style="width: 150px; margin: 1em 0;" bis_skin_checked="1">
+                                    <input type="text" name="keyword" class="form-control pull-right" placeholder="Search" th:value="${keyword}">
+                                    <div class="input-group-btn" bis_skin_checked="1">
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10px;">ID</th>
+                                    <th>Tên khách hàng</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Ngày đặt hàng</th>
+                                    <th>Ngày giao hàng</th>
+                                    <th>Trạng thái</th>
+                                    <th>Hành động</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="order ,pro : ${orders}">
+                                    <td th:text="${pro.index + 1 + (currentPage - 1)*5}"></td>
+                                    <td th:text="${order.getUser().userName}"></td>
+                                    <td th:text="${order.getUser().address}"></td>
+                                    <td th:text="${order.getUser().phone}"></td>
+                                    <td th:text="${#dates.format(order.oderdate, 'yyyy-MM-dd')}"></td>
+                                    <td th:text="${#dates.format(order.shipdate, 'yyyy-MM-dd')}"></td>
+                                    <td th:text="${order.oderstatus}"></td>
+                                    <td>
+                                        <a th:href="@{/admin/update-order/{id}(id=${order.id})}"  class="btn btn-success">Update</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!-- Pagination -->
+                            <nav >
+                                <ul class="pagination pagination-sm no-margin pull-right" >
+                                    <li class="page-item" th:if="${currentPage>1}" ><a class="page-link" th:href="@{'?pageNo='+${currentPage - 1}}"><<</a></li>
+                                    <li class="page-item" th:each="i:${#numbers.sequence(1,totalPages)}" th:classappend="${currentPage == i ? 'active': ''}"><a class="page-link" th:text="${i}" th:href="@{${keyword != null && keyword != '' ? '?keyword=' + keyword+'&' : '?'}+ 'pageNo='+${i}}"></a></li>
+                                    <li class="page-item" th:if="${currentPage<totalPages}"><a class="page-link" th:href="@{'?pageNo='+${currentPage + 1}}">>></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+
+    <div class="footer">
+        <div class="footer-inner">
+            <div class="footer-content">
+						<span class="bigger-120">
+							<span class="blue bolder">VMH</span>
+							Shop &copy; 2025
+						</span>
+                <span class="action-buttons">
+							<a href="#">
+								<i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
+							</a>
+
+							<a href="#">
+								<i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
+							</a>
+
+							<a href="#">
+								<i class="ace-icon fa fa-rss-square orange bigger-150"></i>
+							</a>
+						</span>
+            </div>
+        </div>
+    </div>
+
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->
+<script th:src="@{/assets/fe/js/jquery.2.1.1.min.js}"></script>
+<script th:src="@{/assets/fe/js/jquery.1.11.1.min.js}"></script>
+<script type="text/javascript">
+    window.jQuery || document.write("<script th:src='@{/assets/fe/js/jquery.min.js}'>"+"<"+"/script>");
+</script>
+<script type="text/javascript">
+    window.jQuery || document.write("<script th:src='@{/assets/fe/js/jquery1x.min.js}'>"+"<"+"/script>");
+</script>
+<script type="text/javascript">
+    if('ontouchstart' in document.documentElement) document.write("<script th:src='@{/assets/fe/js/jquery.mobile.custom.min.js}'>"+"<"+"/script>");
+</script>
+<script th:src="@{/assets/fe/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/fe/js/bootstrap-datepicker.min.js}"></script>
+<script th:src="@{/assets/fe/js/jquery.jqGrid.min.js}"></script>
+<script th:src="@{/assets/fe/js/grid.locale-en.js}"></script>
+<script th:src="@{/assets/fe/js/ace-elements.min.js}"></script>
+<script th:src="@{/assets/fe/js/ace.min.js}"></script>
+</body>
+</html>

@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+import java.util.Set;
+
 @Setter
 @Getter
 @Entity
@@ -23,7 +26,7 @@ public class Product {
     @Getter
     @Column(name = "price")
     private Double price;
-
+    @Getter
     @Column(name = "image")
     private String image;
     
@@ -46,10 +49,21 @@ public class Product {
     @Column(name = "size")
     private Long size;
 
+    @Setter
+    @Getter
+    @Column(name = "rating")
+    private Double rating;
+
     @Getter
     @ManyToOne
     @JoinColumn(name = "categoryid",referencedColumnName = "id")
     private Category category;
+
+    @OneToMany(mappedBy = "product")
+    private Set<WishlistProduct> wishlistProductSet;
+
+    @OneToMany(mappedBy = "product")
+    private List<Rating> ratings;
 
 
 
@@ -76,5 +90,53 @@ public class Product {
         this.image = image;
         this.price = price;
         this.productname = productname;
+    }
+
+    public Product(Integer productid, Set<WishlistProduct> wishlistProductSet, Long size, Category category, String color, Integer quanlity, String description, String image, Double price, String productname) {
+        this.productid = productid;
+        this.wishlistProductSet = wishlistProductSet;
+        this.size = size;
+        this.category = category;
+        this.color = color;
+        this.quanlity = quanlity;
+        this.description = description;
+        this.image = image;
+        this.price = price;
+        this.productname = productname;
+    }
+
+    public Product(Integer productid, String productname, Double price, String image, String description, Integer quanlity, String color, Long size, Double rating, Category category, Set<WishlistProduct> wishlistProductSet, List<Rating> ratings) {
+        this.productid = productid;
+        this.productname = productname;
+        this.price = price;
+        this.image = image;
+        this.description = description;
+        this.quanlity = quanlity;
+        this.color = color;
+        this.size = size;
+        this.rating = rating;
+        this.category = category;
+        this.wishlistProductSet = wishlistProductSet;
+        this.ratings = ratings;
+    }
+    public Product(Integer productid, String productname, Double price, String image, String description, Integer quanlity, String color, Long size, Category category, Set<WishlistProduct> wishlistProductSet, List<Rating> ratings) {
+        this.productid = productid;
+        this.productname = productname;
+        this.price = price;
+        this.image = image;
+        this.description = description;
+        this.quanlity = quanlity;
+        this.color = color;
+        this.size = size;
+        int i=0;
+        double j = 0;
+        for(Rating rt:ratings){
+            j+=rt.getRatingValue().doubleValue();
+            i++;
+        }
+        this.rating = j/(double)i;
+        this.category = category;
+        this.wishlistProductSet = wishlistProductSet;
+        this.ratings = ratings;
     }
 }

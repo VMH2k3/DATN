@@ -1,0 +1,92 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>VMHShop - Danh sách đơn hàng</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{assets/fe/img/logo.png}">
+    <link rel="stylesheet" th:href="@{/assets/fe/css/plugins.css}">
+    <link rel="stylesheet" th:href="@{/assets/fe/css/style.css}">
+</head>
+
+<body>
+<!--header area start-->
+<header th:replace="/web/fragments/header_area :: header"></header>
+<!--header area end-->
+
+<!--Offcanvas menu area start-->
+<div th:replace="/web/fragments/menu :: menu"></div>
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb_content">
+                    <ul>
+                        <li><a href="/product">home</a></li>
+                        <li>Product Rating</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="Checkout_section mt-60">
+    <div class="container">
+        <div class="checkout_form">
+            <div class="row">
+                <div class="">
+                    <form th:action="@{/list_rating/add}" role="form" method="post" th:object="${rating}">
+                        <h3>Product Rating</h3>
+                        <div class="order_table table-responsive" >
+                            <div class="form-group">
+                                <label>Product Name</label>
+                                <span th:text="${product.productname}"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Image</label>
+                                <img th:src="@{'/assets/fe/img/product/'+${product.image} }" alt="" >
+                            </div>
+                            <input type="hidden" th:field="*{user.id}" />
+                            <input type="hidden" th:field="*{product.productid}" />
+                            <div class="form-group">
+                                <label for="RatingValue">Star</label>
+                                <select type="text" class="form-control" id="RatingValue"
+                                        th:field="*{ratingValue}">
+                                    <option value="5">5</option>
+                                    <option value="4">4</option>
+                                    <option value="3">3</option>
+                                    <option value="2">2</option>
+                                    <option value="1">1</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Comment</label>
+                                <textarea name="description" id="description" rows="3" cols="80" th:field="*{comment}"
+                                          class="form-control" placeholder="Input Comment"></textarea>
+                            </div>
+                            <div class="box-footer">
+                                <button type="submit" class="btn btn-primary">Rating</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="/web/fragments/footer :: footer"></div>
+<script th:src="@{/assets/fe/js/plugins.js}"></script>
+<script th:src="@{/assets/fe/js/main.js}"></script>
+
+
+
+</body>
+
+</html>

@@ -22,6 +22,11 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public Cart getCartById(int id) {
+        return this.cartRepository.findById(id).get();
+    }
+
+    @Override
     public Set<Cart> getCartByUserId(Long Userid) {
         return this.userRepository.findById(Userid).get().getCarts();
     }

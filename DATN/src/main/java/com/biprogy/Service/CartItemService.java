@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CartItemService {
     List<CartItem> getCartItems(Integer cartId);
-    CartItem getCartItemById(Long id);
+    CartItem FindById(Integer id);
     Boolean create(CartItem cartItem);
-    Boolean delete(Long id);
+    Boolean delete(Integer id);
 }

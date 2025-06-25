@@ -1,6 +1,5 @@
 package com.biprogy.Repository;
 
-import com.biprogy.Model.Category;
 import com.biprogy.Model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
